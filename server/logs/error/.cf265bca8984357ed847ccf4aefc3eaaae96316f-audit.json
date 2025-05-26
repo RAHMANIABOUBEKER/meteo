@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "C:\\projects\\perso\\adcleek\\server\\logs\\error\\.cf265bca8984357ed847ccf4aefc3eaaae96316f-audit.json",
+    "files": [
+        {
+            "date": 1748213611944,
+            "name": "C:\\projects\\perso\\adcleek\\server\\logs\\error\\2025-05-26.log",
+            "hash": "85c56947e62e3c84f00879d683d948bb85d4a3315f4ea55d348b3fe385144807"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "noUnusedLocals": false,
+    "moduleResolution": "node",
+    "strict": true,
+    "outDir": "./dist",
+    "rootDirs": ["./src", "./test"],
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noUnusedParameters": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "resolveJsonModule": true,
+    "strictPropertyInitialization": false,
+    "target": "ESNext",
+    "paths": {
+      "@src/*": ["../src/*"],
+      "@services/*": ["./services/*"],
+      "@core/*": ["./core/*"],
+      "@routes/*": ["./routes/*"],
+      "@middlewares/*": ["./middlewares/*"],
+      "@assets/*": ["./assets/*"]
+    },
+    "types": ["node", "jest"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./core/types"
+    ],
+  },
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "./src/**/*.js"],
+  "exclude": ["node_modules/**"]
+}
