@@ -1,5 +1,5 @@
-import { IsEmail, IsEnum, IsOptional, IsPhoneNumber, IsString, Length } from "class-validator";
-import { UserRole } from "./user-role";
+import { IsEmail, IsEnum, IsOptional, IsPhoneNumber, IsString, Length } from 'class-validator';
+import { UserRole } from './user-role';
 
 export class UserDTO {
   @IsString()

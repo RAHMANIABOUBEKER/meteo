@@ -14,10 +14,7 @@ export async function getCities(req: Request, res: Response, db: Database) {
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = (page - 1) * limit;
 
-    const data = await db.all(
-      'SELECT insee, name, zipcode, population FROM city ORDER BY name ASC LIMIT ? OFFSET ?',
-      [limit, offset]
-    );
+    const data = await db.all('SELECT insee, name, zipcode, population FROM city ORDER BY name ASC LIMIT ? OFFSET ?', [limit, offset]);
 
     const totalRow = await db.get('SELECT COUNT(*) as count FROM city');
     const total = totalRow?.count || 0;
@@ -28,11 +25,10 @@ export async function getCities(req: Request, res: Response, db: Database) {
       page,
       limit,
     });
-  } catch (err) {
+  } catch (_err) {
     res.status(500).json({ error: 'Failed to retrieve cities' });
   }
 }
-
 
 /**
  * POST /cities
@@ -45,15 +41,13 @@ export async function addCity(req: Request, res: Response, db: Database) {
   }
 
   try {
-    const city = await db.get('SELECT insee, name, zipcode, population FROM city WHERE insee = ?', [
-      insee,
-    ]);
+    const city = await db.get('SELECT insee, name, zipcode, population FROM city WHERE insee = ?', [insee]);
     if (!city) {
       return res.status(404).json({ error: 'City not found in database' });
     }
 
     return res.status(201).json(city);
-  } catch (err) {
+  } catch (_err) {
     return res.status(500).json({ error: 'Failed to add city' });
   }
 }
@@ -67,22 +61,18 @@ export async function getForecast(req: Request, res: Response, db: Database) {
     return res.status(400).json({ error: 'Missing insee code' });
   }
 
-
   try {
-    const cached = await db.all(
-      'SELECT date, details FROM forecast WHERE insee = ? AND date IN (?, ?)',
-      [insee]
-    );
+    const cached = await db.all('SELECT date, details FROM forecast WHERE insee = ?', [insee]);
 
     if (cached.length === 2) {
-      const forecasts = cached.map(entry => {
+      const forecasts = cached.map((entry) => {
         const details = JSON.parse(entry.details);
         return {
           datetime: entry.date,
           tmin: details.tmin,
           tmax: details.tmax,
           probarain: details.probarain,
-          icon: details.icon ?? WeatherUtils.getIconByCode(details.weather)
+          icon: details.icon ?? WeatherUtils.getIconByCode(details.weather),
         };
       });
 
@@ -90,9 +80,7 @@ export async function getForecast(req: Request, res: Response, db: Database) {
     }
 
     const TOKEN = config.weatherAPIKey;
-    const apiRes = await axios.get(
-      `https://api.meteo-concept.com/api/forecast/daily?token=${TOKEN}&insee=${insee}`
-    );
+    const apiRes = await axios.get(`https://api.meteo-concept.com/api/forecast/daily?token=${TOKEN}&insee=${insee}`);
 
     const fullForecasts = apiRes.data.forecast;
 
@@ -102,20 +90,16 @@ export async function getForecast(req: Request, res: Response, db: Database) {
         tmin: f.tmin,
         tmax: f.tmax,
         probarain: f.probarain,
-        icon: WeatherUtils.getIconByCode(f.weather)
+        icon: WeatherUtils.getIconByCode(f.weather),
       };
 
-      db.run(
-        'INSERT OR REPLACE INTO forecast (date, insee, details) VALUES (?, ?, ?)',
-        [f.datetime, insee, JSON.stringify(simplified)]
-      );
+      db.run('INSERT OR REPLACE INTO forecast (date, insee, details) VALUES (?, ?, ?)', [f.datetime, insee, JSON.stringify(simplified)]);
 
       return simplified;
     });
 
     return res.json({ forecasts });
-  } catch (err) {
+  } catch (_err) {
     return res.status(500).json({ error: 'Failed to fetch forecast' });
   }
 }
-

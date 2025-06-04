@@ -1,9 +1,8 @@
-import { Database } from "./Database";
+import { Database } from './Database';
 
 const CREATE_CITY =
-  "CREATE TABLE city (id  INTEGER PRIMARY KEY, insee VARCHAR(6) NOT NULL, name TEXT NOT NULL, zipcode  VARCHAR(6) NOT NULL, population INTEGER)";
-const CREATE_FORECAST =
-  "CREATE TABLE forecast (id  INTEGER PRIMARY KEY, date DATE NOT NULL, insee VARCHAR(6) NOT NULL, details TEXT NOT NULL)";
+  'CREATE TABLE city (id  INTEGER PRIMARY KEY, insee VARCHAR(6) NOT NULL, name TEXT NOT NULL, zipcode  VARCHAR(6) NOT NULL, population INTEGER)';
+const CREATE_FORECAST = 'CREATE TABLE forecast (id  INTEGER PRIMARY KEY, date DATE NOT NULL, insee VARCHAR(6) NOT NULL, details TEXT NOT NULL)';
 
 const POP_CITY =
   'insert into city (insee, name, zipcode, population) VALUES \

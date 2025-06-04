@@ -1,4 +1,4 @@
-import sqlite3 from "sqlite3";
+import sqlite3 from 'sqlite3';
 
 export class Database {
   private db: sqlite3.Database;

@@ -16,14 +16,12 @@ import { Database } from './core/db/Database';
 import { InitDb } from './core/db/InitDb';
 import { configureRoutes } from './routes';
 
-
 async function launch() {
   try {
     const database = new Database(':memory:');
     const initDb = new InitDb(database);
     await initDb.initialize();
 
-   
     const app = appServer.configure(conf.clientURL);
 
     configureRoutes(app, database);

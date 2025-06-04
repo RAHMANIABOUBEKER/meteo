@@ -1,4 +1,3 @@
-
 import express, { Application } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -22,22 +21,26 @@ class AppServer {
   }
 
   private setupSecurity(clientUrl: string) {
-    this.app.use(helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", "data:"]
-        }
-      },
-      referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
-    }));
+    this.app.use(
+      helmet({
+        contentSecurityPolicy: {
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", 'data:'],
+          },
+        },
+        referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+      })
+    );
 
-    this.app.use(cors({
-      origin: clientUrl,
-      credentials: true
-    }));
+    this.app.use(
+      cors({
+        origin: clientUrl,
+        credentials: true,
+      })
+    );
   }
 
   private setupMiddlewares() {
@@ -45,7 +48,7 @@ class AppServer {
   }
 
   private setupRoutes() {
-     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
   }
 
   private setupErrorHandling() {
