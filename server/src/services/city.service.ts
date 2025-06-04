@@ -41,12 +41,12 @@ export async function addCity(req: Request, res: Response, db: Database) {
   }
 
   try {
-    const city = await db.get('SELECT insee, name, zipcode, population FROM city WHERE insee = ?', [insee]);
-    if (!city) {
-      return res.status(404).json({ error: 'City not found in database' });
+    const existing = await db.get('SELECT insee FROM city WHERE insee = ?', [insee]);
+    if (existing) {
+      return res.status(409).json({ error: 'City already added' });
     }
-
-    return res.status(201).json(city);
+    await db.run('INSERT INTO city (insee) VALUES (?)', [insee]);
+    return res.status(201).json({ insee });
   } catch (_err) {
     return res.status(500).json({ error: 'Failed to add city' });
   }
